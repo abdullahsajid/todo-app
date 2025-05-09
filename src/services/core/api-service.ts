@@ -1,9 +1,10 @@
 import axios from "axios";
 
 namespace APIService {
-  export const post = async (url: string, body: object) => {
+  export const post = async (url: string, body: object,headers?:object) => {
     try {
-      const response = await axios.post(url, body);
+      const config = headers && { headers };
+      const response = await axios.post(url, body,config);
       return response.data;
     } catch (error) {
       throw error;
@@ -19,18 +20,18 @@ namespace APIService {
     }
   };
 
-  export const del = async (url: string) => {
+  export const del = async (url: string,headers?:object) => {
     try {
-      const response = await axios.delete(url);
+      const response = await axios.delete(url,headers);
       return response.data;
     } catch (error) {
       throw error;
     }
   };
 
-  export const get = async (url: string) => {
+  export const get = async (url: string,headers?:object) => {
     try {
-      const response = await axios.get(url);
+      const response = await axios.get(url,headers);
       return response.data;
     } catch (error) {
       throw error;
