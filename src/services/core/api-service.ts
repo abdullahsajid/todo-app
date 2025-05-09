@@ -11,9 +11,10 @@ namespace APIService {
     }
   };
 
-  export const put = async (url: string, body: object) => {
+  export const put = async (url: string, body: object,headers?:object) => {
     try {
-      const response = await axios.put(url, body);
+      const config = headers && { headers };
+      const response = await axios.put(url, body,config);
       return response.data;
     } catch (error) {
       throw error;
@@ -22,7 +23,8 @@ namespace APIService {
 
   export const del = async (url: string,headers?:object) => {
     try {
-      const response = await axios.delete(url,headers);
+      const config = headers && { headers };
+      const response = await axios.delete(url,config);
       return response.data;
     } catch (error) {
       throw error;

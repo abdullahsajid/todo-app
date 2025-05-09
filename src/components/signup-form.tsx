@@ -11,10 +11,11 @@ import {
 import { Input } from '@/src/components/shadcn-ui/input';
 import { Label } from '@/src/components/shadcn-ui/label';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import UserService from '../services/user-service';
 import Cookies from "universal-cookie";
 import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 const cookie = new Cookies();
 
 export function SignupForm({
@@ -26,6 +27,7 @@ export function SignupForm({
 		email: '',
 		password: '',
 	});
+	const router = useRouter();
 
 	const handlerSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
@@ -44,12 +46,20 @@ export function SignupForm({
 			if (res.token) {
 				cookie.set("todo-app", res.token);
 				toast.success('User created successfully');
+				router.push("/dashboard");
 			}
 		} catch (error) {
 			toast.error('Error creating user');
 			console.log('error', error);
 		}
 	};
+
+	useEffect(() => {
+		let token = cookie.get("todo-app");
+		if (token) {
+		  router.push("/dashboard");
+		}
+	  }, []);
 
 	return (
 		<div

@@ -11,10 +11,11 @@ import {
 import { Input } from "@/src/components/shadcn-ui/input"
 import { Label } from "@/src/components/shadcn-ui/label"
 import Link from "next/link"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import toast from "react-hot-toast";
 import UserService from "../services/user-service";
 import Cookies from "universal-cookie";
+import { useRouter } from "next/navigation";
 const cookie = new Cookies();
 
 export function LoginForm({
@@ -25,6 +26,7 @@ export function LoginForm({
       email: '',
       password: '',
   });
+  const router = useRouter();
 
   const handlerSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
@@ -42,7 +44,8 @@ export function LoginForm({
 			}
 			if (res.token) {
 				cookie.set("todo-app", res.token);
-				toast.success('User created successfully');
+        toast.success('User created successfully');
+        router.push("/dashboard");
 			}
 		} catch (error) {
 			toast.error('Error Something went wrong');
@@ -50,6 +53,8 @@ export function LoginForm({
 		}
 	};
   
+  
+
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>

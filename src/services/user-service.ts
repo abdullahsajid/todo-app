@@ -38,6 +38,51 @@ namespace UserService {
     }
   }
 
+  export const createTodo = async (payload: any) => {
+    try {
+      const token = cookie.get("todo-app");
+      const headers: any = {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      };
+      const response = await APIService.post(API_ROUTES.TODO, payload, headers);
+      return response;
+    } catch (error) {
+      console.error("Error creating todo:", error);
+      throw error;
+    }
+  }
+
+  export const updateTodo = async (payload: any,id:string) => {
+    try {
+      const token = cookie.get("todo-app");
+      const headers: any = {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      };
+      const response = await APIService.put(`${API_ROUTES.TODO}/${id}`, payload, headers);
+      return response;
+    } catch (error) {
+      console.error("Error updating todo:", error);
+      throw error;
+    }
+  }
+
+  export const deleteTodo = async (id: string) => {
+    try {
+      const token = cookie.get("todo-app");
+      const headers: any = {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      };
+      const response = await APIService.del(`${API_ROUTES.TODO}/${id}`, headers);
+      return response;
+    } catch (error) {
+      console.error("Error deleting todo:", error);
+      throw error;
+    }
+  }
+
 }
 
 export default UserService;
