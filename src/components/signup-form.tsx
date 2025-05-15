@@ -1,3 +1,5 @@
+/** @format */
+
 'use client';
 import { cn } from '@/lib/utils';
 import { Button } from '@/src/components/shadcn-ui/button';
@@ -13,7 +15,7 @@ import { Label } from '@/src/components/shadcn-ui/label';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import UserService from '../services/user-service';
-import Cookies from "universal-cookie";
+import Cookies from 'universal-cookie';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 const cookie = new Cookies();
@@ -27,31 +29,40 @@ export function SignupForm({
 		email: '',
 		password: '',
 	});
+	const [isLoading, setIsLoading] = useState(false);
 	const router = useRouter();
 
 	const handlerSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
+		setIsLoading(true);
 		const { name, email, password } = formData;
 		if (!name || !email || !password) {
 			toast.error('Please fill all fields');
+			setIsLoading(false);
 			return;
 		}
 		try {
 			const res = await UserService.signUp(formData);
-			console.log('res', res);
+			
 			if (res.statusCode == 400 || res.statusCode == 500) {
 				toast.error(`Something went wrong`);
+				setIsLoading(false);
 				return;
 			}
 			if (res.token) {
 				localStorage.setItem('todo-user', JSON.stringify(res.user));
-				cookie.set("todo-app", res.token);
+				cookie.set('todo-app', res.token);
 				toast.success('User created successfully');
-				router.push("/dashboard");
+				router.push('/dashboard');
+				setIsLoading(false);
+			} else {
+				toast.error('Invalid credentials');
+				setIsLoading(false);
 			}
 		} catch (error) {
 			toast.error('Error creating user');
 			console.log('error', error);
+			setIsLoading(false);
 		}
 	};
 
@@ -111,8 +122,9 @@ export function SignupForm({
 							</div>
 							<Button
 								type='submit'
-								className='w-full'
+								className='w-full disabled:opacity-50 disabled:cursor-not-allowed'
 								onClick={handlerSubmit}
+								disabled={isLoading}
 							>
 								Sign Up
 							</Button>
