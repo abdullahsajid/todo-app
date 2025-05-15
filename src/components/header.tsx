@@ -52,9 +52,9 @@ export default function Navbar() {
 					{/* Logo */}
 					<div className='flex items-center space-x-2'>
 						<div className='w-8 h-8 bg-primary rounded-md flex items-center justify-center'>
-							<span className='text-white font-bold'>L</span>
+							<span className='text-white font-bold'>T</span>
 						</div>
-						<span className='text-lg font-semibold'>Logo</span>
+						<span className='text-lg font-semibold'>Todo App</span>
 					</div>
 				</div>
 
