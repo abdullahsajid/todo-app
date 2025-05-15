@@ -21,6 +21,16 @@ namespace APIService {
     }
   };
 
+  export const patch = async (url: string, body: object,headers?:object) => {
+    try {
+      const config = headers && { headers };
+      const response = await axios.patch(url, body,config);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  };
+
   export const del = async (url: string,headers?:object) => {
     try {
       const config = headers && { headers };

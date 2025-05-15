@@ -1,4 +1,4 @@
-import { API_ROUTES } from "../constants/apisPath";
+import { API_ROUTES, BACKEND_BASE_URL } from "../constants/apisPath";
 import APIService from "./core/api-service";
 import Cookies from "universal-cookie";
 const cookie = new Cookies();
@@ -64,6 +64,21 @@ namespace UserService {
       return response;
     } catch (error) {
       console.error("Error updating todo:", error);
+      throw error;
+    }
+  }
+
+  export const markTodo = async (id: string) => {
+    try {
+      const token = cookie.get("todo-app");
+      const headers: any = {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      };
+      const response = await APIService.patch(`${API_ROUTES.TODO}/${id}/toggle`, {}, headers);
+      return response; 
+    } catch (error) {
+      console.error("Error marking todo:", error);
       throw error;
     }
   }
