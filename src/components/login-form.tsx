@@ -42,7 +42,8 @@ export function LoginForm({
 				toast.error(`Something went wrong`);
 				return;
 			}
-			if (res.token) {
+      if (res.token) {
+        localStorage.setItem('todo-user', JSON.stringify(res.user));
 				cookie.set("todo-app", res.token);
         toast.success('User created successfully');
         router.push("/dashboard");

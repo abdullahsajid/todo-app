@@ -44,6 +44,7 @@ export function SignupForm({
 				return;
 			}
 			if (res.token) {
+				localStorage.setItem('todo-user', JSON.stringify(res.user));
 				cookie.set("todo-app", res.token);
 				toast.success('User created successfully');
 				router.push("/dashboard");
@@ -53,13 +54,6 @@ export function SignupForm({
 			console.log('error', error);
 		}
 	};
-
-	useEffect(() => {
-		let token = cookie.get("todo-app");
-		if (token) {
-		  router.push("/dashboard");
-		}
-	  }, []);
 
 	return (
 		<div

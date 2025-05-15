@@ -8,7 +8,7 @@ import { TodoItems } from '@/src/components/todo';
 import UserService from '@/src/services/user-service';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
-import Cookies from "universal-cookie";
+import Cookies from 'universal-cookie';
 const cookie = new Cookies();
 
 const Dashboard = () => {
@@ -31,6 +31,16 @@ const Dashboard = () => {
 	};
 
 	useEffect(() => {
+		const auth = async () => {
+			let token = cookie.get('todo-app');
+			if (!token) {
+				router.replace('/');
+			}
+		};
+		auth();
+	}, []);
+
+	useEffect(() => {
 		getTodos();
 	}, []);
 
@@ -38,15 +48,6 @@ const Dashboard = () => {
 		setEditItem(item);
 		setIsOpen(true);
 	};
-
-	// useEffect(() => {
-	// 	let token = cookie.get("todo-app");
-	// 	if (token) {
-	// 		router.replace("/");
-	// 	}
-	// 	return () => {};
-	// }, []);
-	
 
 	return (
 		<div>
@@ -70,8 +71,8 @@ const Dashboard = () => {
 						<TodoItems
 							key={index}
 							todo={todo}
-              getItem={getItem}
-              getTodos={getTodos}
+							getItem={getItem}
+							getTodos={getTodos}
 						/>
 					))
 				) : (
